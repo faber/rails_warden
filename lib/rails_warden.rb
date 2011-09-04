@@ -67,6 +67,7 @@ Warden::Manager.before_failure do |env, opts|
   opts ||= {}
   action = opts[:action] || RailsWarden.unauthenticated_action || "unauthenticated"
   if Rails.respond_to?(:version) && Rails.version >= "3"
+    env['action_dispatch.request.path_parameters'] ||= {}
     env['action_dispatch.request.path_parameters'][:action] = action
   else
     env['warden'].request.params['action'] = action
